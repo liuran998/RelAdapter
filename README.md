@@ -25,7 +25,7 @@ python main.py --seed 1 --step train --metatrain_adaptor False --eval_by_rel Fal
 ```bash
 python main.py --seed 1 --step test --metatrain_adaptor False --eval_by_rel True --prefix wikione_1shot_pretrain --alpha 0.3 --mu 0.05 --neurons 50 --device 0
 ```
-FB15K-237 and UMLS follow the same code format for training and test.
+**FB15K-237 and UMLS follow the same code format for training and test.
 
 Here are explanations of some important args,
 
