@@ -1,9 +1,5 @@
 # Pytorch RelAdapter (Few-shot Link Prediction)
 
-Python 3.6.7
-PyTorch 1.0.1
-tensorboardX 1.8
-
 ## Evironment Setting
 This code is lastly tested with:
 * Python 3.6.7
