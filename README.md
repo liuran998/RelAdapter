@@ -11,7 +11,9 @@ This code is lastly tested with:
 * tensorboardX 1.8
 
 You can also install dependencies by
+```bash
 pip install -r requirements.txt
+```
 
 ## Dataset
 We provide three datasets: Wiki[^1], FB15K-237[^1] and UMLS.
@@ -39,4 +41,4 @@ The following command trains and validates a DistMult model on umls dataset with
 --node_embed_size 50 
 --dimension 50``<br />
 
-[^1]: Due to size constraint, NELL-995 and WN18RR has been excluded.
+[^1]: Due to size constraint, Wiki and FB15K-237 has been excluded.
