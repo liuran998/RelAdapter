@@ -18,10 +18,7 @@ pip install -r requirements.txt
 ## Dataset
 We provide three datasets: Wiki[^1], FB15K-237[^1] and UMLS.
 
-We use the few-shot variants of Wiki, FB15K-237 and UMLS to test our model. You can also download the zip files where we put the datasets and pretrain embeddings together from [Dropbox](https://www.dropbox.com/sh/d04wbxx8g97g1rb/AABDZc-2pagoGhKzNvw0bG07a?dl=0). 
-
-Note that all Wiki, FB15K-237 are retrieved from XX and XX. Whereas UMLS is pre-proce
-
+We use the few-shot variants of Wiki, FB15K-237 and UMLS to test our model. You can download the zip files where we put the datasets and pretrain embeddings together from [Dropbox](https://www.dropbox.com/scl/fi/x7eih477f0gsx7lo0dksi/Dataset.zip?rlkey=gu2lcy1532u2ldux1opq2izad&dl=0). 
 
 ## Training
 
