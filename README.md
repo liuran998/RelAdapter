@@ -18,27 +18,34 @@ pip install -r requirements.txt
 ## Dataset
 We provide three datasets: Wiki[^1], FB15K-237[^1] and UMLS.
 
-## Training and Testing
+We use the few-shot variants of Wiki, FB15K-237 and UMLS to test our model. You can also download the zip files where we put the datasets and pretrain embeddings together from [Dropbox](https://www.dropbox.com/sh/d04wbxx8g97g1rb/AABDZc-2pagoGhKzNvw0bG07a?dl=0). 
 
-### The format of input training data
-### Train/Validation/Test 
-* Each line: source_node relation target_node
+Note that all Wiki, FB15K-237 are retrieved from XX and XX. Whereas UMLS is pre-proce
 
-### Entities & Relations Dictionary
-* Each line: ID Name
 
-## Basic Usage
-python main.py --dataset <dataset_name> --scoring_function <function_number> --node_embed_size <D> --dimension <D> <br /><br />
-### As an example:
-The following command trains and validates a DistMult model on umls dataset with 100D in node_embed_size & dimension:<br />
-``python main.py --dataset umls 
---scoring_function 1
---node_embed_size 100 
---dimension 100``
-<br />The following command trains and validates a RotatE model on umls dataset with 100D (50 Real + 50 Imaginary Dimensions) in node_embed_size & dimension:<br />
-``python main.py --dataset umls 
---scoring_function 2
---node_embed_size 50 
---dimension 50``<br />
+## Training
+
+```bash
+python main.py --seed 1 --step train --metatrain_adaptor False --eval_by_rel False --prefix wikione_1shot_pretrain --alpha 0.3 --mu 0.05 --neurons 50 --device 0
+```
+
+## Test
+```bash
+python main.py --seed 1 --step test --metatrain_adaptor False --eval_by_rel True --prefix wikione_1shot_pretrain --alpha 0.3 --mu 0.05 --neurons 50 --device 0
+```
+
+Here are explanations of some important args,
+
+```bash
+--dataset:   "the name of dataset, Wiki, FB15K-237, UMLS"
+--data_path: "directory of dataset"
+--few:       "the number of few in {few}-shot, as well as instance number in support set"
+--data_form: "dataset setting, Pre-Train or In-Train"
+--alpha : "the adapter transformation coefficient"
+--mu : "the contextual coefficient"
+--neurons : "the number of hidden neurons in adapter"
+--prefix:    "given name of current experiment"
+--device:    "the GPU number"
+```
 
 [^1]: Due to size constraint, Wiki and FB15K-237 has been excluded.
