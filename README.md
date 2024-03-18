@@ -12,7 +12,7 @@ pip install -r requirements.txt
 ```
 
 ## Dataset
-We provide three datasets: Wiki[^1], FB15K-237[^1] and UMLS.
+We provide three datasets: Wiki[^1], FB15K-237[^1] and UMLS[^1].
 
 We use the few-shot variants of Wiki, FB15K-237 and UMLS to test our model. You can download the zip files where we put the datasets and pretrain embeddings together from [Dropbox](https://www.dropbox.com/scl/fi/x7eih477f0gsx7lo0dksi/Dataset.zip?rlkey=gu2lcy1532u2ldux1opq2izad&dl=0). 
 
@@ -41,4 +41,3 @@ Here are explanations of some important args,
 --device:    "the GPU number"
 ```
 
-[^1]: Due to size constraint, Wiki and FB15K-237 has been excluded.
