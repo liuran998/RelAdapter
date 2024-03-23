@@ -18,7 +18,7 @@ def get_params():
     args.add_argument("-lr", "--learning_rate", default=0.001, type=float)
     args.add_argument("-adaptor_lr", "--adaptor_learning_rate", default=0.001, type=float)
     args.add_argument("-es_p", "--early_stopping_patience", default=30, type=int)
-    args.add_argument("-lambda", "--lambda", default=0.1, type=float)
+    args.add_argument("-lambda", "--alpha", default=0.1, type=float)
     args.add_argument("-mu", "--mu", default=0.5, type=float)
     args.add_argument("-neuron", "--neuron", default=50, type=int)
 
