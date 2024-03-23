@@ -32,7 +32,7 @@ Here are explanations of some important args,
 --dataset:   "the name of dataset, Wiki, FB15K-237, UMLS"
 --data_path: "directory of dataset"
 --few:       "the number of few in {few}-shot, as well as instance number in support set"
---data_form: "dataset setting, Pre-Train or In-Train"
+--data_form: "dataset setting, Pre-Train"
 --alpha : "the adapter ratio"
 --mu : "the context ratio"
 --neurons : "the adapter neurons"
