@@ -6,7 +6,7 @@ def get_params():
     args = argparse.ArgumentParser()
     args.add_argument("-data", "--dataset", default="UMLS-One", type=str)  # ["NELL-One", "Wiki-One"]
     args.add_argument("-path", "--data_path", default="./UMLS", type=str)  # ["./NELL", "./Wiki"]
-    args.add_argument("-form", "--data_form", default="Pre-Train", type=str)  # ["Pre-Train", "In-Train", "Discard"]
+    args.add_argument("-form", "--data_form", default="Pre-Train", type=str) 
     args.add_argument("-seed", "--seed", default=1, type=int)
     args.add_argument("-few", "--few", default=3, type=int)
     args.add_argument("-nq", "--num_query", default=3, type=int)
