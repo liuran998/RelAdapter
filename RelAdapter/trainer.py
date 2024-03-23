@@ -358,41 +358,7 @@ class Trainer:
                 # Retrieve validation triplet after support
                 self.task_training(best_value, epoch, best_epoch, eval_task_support, self.adaptor,
                                                             iseval=True, curr_rel='')
-            #     t = 0
-            #     while True:
-            #         eval_task_training, curr_rel = data_loader.next_one_on_eval_by_relation_tasktraining(rel)
-            #         if eval_task_training == 'EOT':
-            #             break
-            #         t += 1
-            #
-            #         p_score, n_score = self.metaR.validation_adaptor(eval_task_training, self.adaptor, iseval=True,  curr_rel='')
-            #         x = torch.cat([n_score, p_score], 1).squeeze()
-            #         self.rank_predict(data, x, ranks)
-            #
-            #     # print overall evaluation result and return it
-            #     for k in data.keys():
-            #         data[k] = round(data[k] / t, 3)
-            #
-            #     # print("{}\tMRR: {:.3f}\tHits@10: {:.3f}\tHits@5: {:.3f}\tHits@1: {:.3f}\r".format(
-            #     #     t, data['MRR'], data['Hits@10'], data['Hits@5'], data['Hits@1']))
-            #
-            #     metric = self.parameter['metric']
-            #     # early stopping checking
-            #     if data[metric] > best_value:
-            #         best_value = data[metric]
-            #         best_epoch = epoch
-            #         # print('\tBest model | {0} of valid set is {1:.3f} at epoch {2}'.format(metric, best_value,best_epoch))
-            #         # save current best
-            #         self.save_relation_adaptor(best_epoch)
-            #
-            #
-            # print('Training of Adaptor has finished')
-            # print('\tBest epoch is {0} | {1} of valid set is {2:.3f}'.format(best_epoch, metric, best_value))
-            # self.save_best_adaptor_relation(best_epoch)
-            # print('Finish')
-
-            #Load best Adaptor
-            # self.reload_relation_adaptor()
+ 
             #Wash metrics for query evaluation
             data = {'MRR': 0, 'Hits@1': 0, 'Hits@5': 0, 'Hits@10': 0}
             temp = dict()
