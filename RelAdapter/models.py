@@ -62,7 +62,7 @@ class MetaR(nn.Module):
         self.margin = parameter['margin']
         self.abla = parameter['ablation']
         self.embedding = Embedding(dataset, parameter)
-        self.delta = parameter['lambda']
+        self.delta = parameter['alpha']
 
 
         if parameter['dataset'] == 'Wiki-One':
