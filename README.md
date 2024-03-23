@@ -33,9 +33,9 @@ Here are explanations of some important args,
 --data_path: "directory of dataset"
 --few:       "the number of few in {few}-shot, as well as instance number in support set"
 --data_form: "dataset setting, Pre-Train or In-Train"
---alpha : "the adapter transformation coefficient"
---mu : "the contextual coefficient"
---neurons : "the number of hidden neurons in adapter"
+--alpha : "the adapter ratio"
+--mu : "the context ratio"
+--neurons : "the adapter neurons"
 --prefix:    "given name of current experiment"
 --device:    "the GPU number"
 ```
