@@ -168,7 +168,6 @@ class MetaR(nn.Module):
                 loss.backward(retain_graph=True)
 
                 grad_meta = rel.grad
-                rel = self.delta*adaptor(rel) + (1-self.delta)*rel
                 rel_q = rel - self.beta*grad_meta
             else:
                 rel_q = rel
