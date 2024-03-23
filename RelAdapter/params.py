@@ -4,8 +4,8 @@ import argparse
 
 def get_params():
     args = argparse.ArgumentParser()
-    args.add_argument("-data", "--dataset", default="FB15K-One", type=str)  # ["NELL-One", "Wiki-One"]
-    args.add_argument("-path", "--data_path", default="./FB15K", type=str)  # ["./NELL", "./Wiki"]
+    args.add_argument("-data", "--dataset", default="UMLS-One", type=str)  # ["NELL-One", "Wiki-One"]
+    args.add_argument("-path", "--data_path", default="./UMLS", type=str)  # ["./NELL", "./Wiki"]
     args.add_argument("-form", "--data_form", default="Pre-Train", type=str)  # ["Pre-Train", "In-Train", "Discard"]
     args.add_argument("-seed", "--seed", default=1, type=int)
     args.add_argument("-few", "--few", default=3, type=int)
@@ -18,21 +18,22 @@ def get_params():
     args.add_argument("-lr", "--learning_rate", default=0.001, type=float)
     args.add_argument("-adaptor_lr", "--adaptor_learning_rate", default=0.001, type=float)
     args.add_argument("-es_p", "--early_stopping_patience", default=30, type=int)
-    args.add_argument("-delta", "--delta", default=0.1, type=int)
+    args.add_argument("-lambda", "--lambda", default=0.1, type=float)
+    args.add_argument("-mu", "--mu", default=0.5, type=float)
+    args.add_argument("-neuron", "--neuron", default=50, type=int)
 
-
-    args.add_argument("-epo", "--epoch", default=100000, type=int)
-    args.add_argument("-prt_epo", "--print_epoch", default=100, type=int)
-    args.add_argument("-eval_epo", "--eval_epoch", default=1000, type=int)
-    args.add_argument("-ckpt_epo", "--checkpoint_epoch", default=1000, type=int)
+    args.add_argument("-epo", "--epoch", default=100000, type=int) #100k
+    args.add_argument("-prt_epo", "--print_epoch", default=100, type=int) #100
+    args.add_argument("-eval_epo", "--eval_epoch", default=1000, type=int) #1k
+    args.add_argument("-ckpt_epo", "--checkpoint_epoch", default=1000, type=int) #1k
     #args.add_argument("-adaptor_epo", "--adaptor_epoch", default=50, type=int)
 
-    args.add_argument("-b", "--beta", default=5, type=float)
+    args.add_argument("-g", "--gamma", default=5, type=float)
     args.add_argument("-m", "--margin", default=1, type=float)
     args.add_argument("-p", "--dropout_p", default=0.5, type=float)
     args.add_argument("-abla", "--ablation", default=False, type=bool)
 
-    args.add_argument("-gpu", "--device", default=2, type=int)
+    args.add_argument("-gpu", "--device", default=0, type=int)
     #args.add_argument("-metatrain_adaptor", "--metatrain_adaptor", default=True, type=bool)
     args.add_argument("-metatrain_adaptor", "--metatrain_adaptor", default="True", type=str, choices=['True', 'False'])
 
@@ -42,14 +43,14 @@ def get_params():
     args.add_argument("-state_dir", "--state_dir", default="state", type=str)
     args.add_argument("-eval_ckpt", "--eval_ckpt", default=None, type=str)
     #args.add_argument("-eval_by_rel", "--eval_by_rel", default=True , type=bool)
-    args.add_argument("-eval_by_rel", "--eval_by_rel", default="True", type=str, choices=['True', 'False'])
+    args.add_argument("-eval_by_rel", "--eval_by_rel", default="False", type=str, choices=['True', 'False'])
 
     args = args.parse_args()
     params = {}
     for k, v in vars(args).items():
         params[k] = v
 
-    if args.dataset == 'NELL-One':
+    if args.dataset == 'FB15K-One':
         params['embed_dim'] = 100
     elif args.dataset == 'Wiki-One':
         params['embed_dim'] = 50
@@ -77,6 +78,7 @@ data_dir = {
 
     'ent2ids': '/ent2ids',
     'ent2vec': '/ent2vec.npy',
+    'ent2vec_txt': '/ent2vec.txt',
 
     'rel_context': '/rel_context.npy',
     'ent_context': '/ent_context.npy',

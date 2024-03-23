@@ -54,11 +54,10 @@ if __name__ == '__main__':
 
     if params['data_form'] == 'Pre-Train':
         print('loading ent embedding ... ...')
-        dataset['ent2emb'] = np.load(data_dir['ent2vec'])
-        # print('loading rel_context embedding ... ...')
-        # dataset['rel_context'] = np.load(data_dir['rel_context'])
-        # print('loading ent_context embedding ... ...')
-        # dataset['ent_context'] = np.load(data_dir['ent_context'])
+        if params['dataset'] == 'umls-One':
+            dataset['ent2emb'] = np.loadtxt(data_dir['ent2vec_txt'])
+        else:
+            dataset['ent2emb'] = np.load(data_dir['ent2vec'])
 
     print("----------------------------")
 
@@ -71,9 +70,6 @@ if __name__ == '__main__':
     # trainer
     trainer = Trainer(data_loaders, dataset, params)
 
-    # Add in adaptor
-    # get_params.adaptor = WayGAN2().getVariables2().cuda()
-    # get_params.adaptor_optimizer = torch.optim.Adam(get_params.adaptor.parameters(), 0.001)
 
     if params['step'] == 'train':
         trainer.train()
@@ -81,9 +77,6 @@ if __name__ == '__main__':
         print(params['prefix'])
         trainer.reload()
         trainer.reload_adaptor()
-        #trainer.task_adaptor_train()
-        #trainer.reload()
-        #trainer.Adaptor_reload()
         trainer.eval(istest=True)
     elif params['step'] == 'test':
         print(params['prefix'])

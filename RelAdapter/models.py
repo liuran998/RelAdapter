@@ -56,27 +56,25 @@ class MetaR(nn.Module):
     def __init__(self, dataset, parameter):
         super(MetaR, self).__init__()
         self.device = parameter['device']
-        self.beta = parameter['beta']
+        self.beta = parameter['gamma']
         self.dropout_p = parameter['dropout_p']
         self.embed_dim = parameter['embed_dim']
         self.margin = parameter['margin']
         self.abla = parameter['ablation']
         self.embedding = Embedding(dataset, parameter)
-        self.delta = parameter['delta']
+        self.delta = parameter['lambda']
 
 
         if parameter['dataset'] == 'Wiki-One':
             self.relation_learner = RelationMetaLearner(parameter['few'], embed_size=50, num_hidden1=250,
                                                         num_hidden2=100, out_size=50, dropout_p=self.dropout_p)
-        elif parameter['dataset'] == 'NELL-One':
-            self.relation_learner = RelationMetaLearner(parameter['few'], embed_size=100, num_hidden1=500,
-                                                        num_hidden2=200, out_size=100, dropout_p=self.dropout_p)
         elif parameter['dataset'] == 'umls-One':
             self.relation_learner = RelationMetaLearner(parameter['few'], embed_size=100, num_hidden1=500,
                                                         num_hidden2=200, out_size=100, dropout_p=self.dropout_p)
         elif parameter['dataset'] == 'FB15K-One':
             self.relation_learner = RelationMetaLearner(parameter['few'], embed_size=100, num_hidden1=500,
                                                         num_hidden2=200, out_size=100, dropout_p=self.dropout_p)
+
 
         self.embedding_learner = EmbeddingLearner()
         self.loss_func = nn.MarginRankingLoss(self.margin)
@@ -100,6 +98,7 @@ class MetaR(nn.Module):
         num_n = negative.shape[1]           # num of query negative
 
         rel = self.relation_learner(support)
+        rel = self.delta*adaptor(rel) + (1-self.delta)*rel
         rel.retain_grad()
 
         # weights = self.relation_learner.rel_fc1.fc
@@ -124,15 +123,12 @@ class MetaR(nn.Module):
                 loss.backward(retain_graph=True)
 
                 grad_meta = rel.grad
-                #grad_meta = adaptor(grad_meta)
-                rel = self.delta*adaptor(rel) + (1-self.delta)*rel
                 rel_q = rel - self.beta*grad_meta
             else:
                 rel_q = rel
 
             self.rel_q_sharing[curr_rel] = rel_q
 
-        #rel_q = adaptor(rel_q)
         rel_q = rel_q.expand(-1, num_q + num_n, -1, -1)
 
         que_neg_e1, que_neg_e2 = self.split_concat(query, negative)  # [bs, nq+nn, 1, es]
@@ -141,11 +137,7 @@ class MetaR(nn.Module):
         return p_score, n_score
 
     def forward_adaptor(self, task, adaptor, iseval=False, curr_rel=''):
-        # transfer task string into embedding
-        # support, support_negative, query, negative = [self.embedding(t) for t in task]
-        # support, support_negative, query, negative = [get_params.adaptor(self.embedding(t)) for t in task]
         support, support_negative, query, negative = [self.embedding(t) for t in task]
-        # support, support_negative, query, negative = [self.embedding(t) for t in task]
 
         few = support.shape[1]              # num of few
         num_sn = support_negative.shape[1]  # num of support negative
@@ -153,14 +145,7 @@ class MetaR(nn.Module):
         num_n = negative.shape[1]           # num of query negative
 
         rel = self.relation_learner(support)
-        # weights = self.relation_learner.rel_fc1.fc
-
-
-        # torch.manual_seed(0)
-        # check = torch.rand(1,1,2, 100).cuda()
-        # check_val = self.relation_learner(check)
-        # checl_2 =get_params.adaptor(check)
-
+        rel = self.delta*adaptor(rel) + (1-self.delta)*rel
         rel.retain_grad()
 
         # relation for support
@@ -183,7 +168,6 @@ class MetaR(nn.Module):
                 loss.backward(retain_graph=True)
 
                 grad_meta = rel.grad
-                #grad_meta = adaptor(grad_meta)
                 rel = self.delta*adaptor(rel) + (1-self.delta)*rel
                 rel_q = rel - self.beta*grad_meta
             else:
@@ -191,7 +175,6 @@ class MetaR(nn.Module):
 
             self.rel_q_sharing[curr_rel] = rel_q
 
-        #rel_q = adaptor(rel_q)
         rel_q = rel_q.expand(-1, num_q + num_n, -1, -1)
 
         que_neg_e1, que_neg_e2 = self.split_concat(query, negative)  # [bs, nq+nn, 1, es]
@@ -200,9 +183,6 @@ class MetaR(nn.Module):
         return p_score, n_score
 
     def task_adaptor(self, task, adaptor,iseval=False, curr_rel=''):
-        # transfer task string into embedding
-        # support, support_negative, query, negative = [self.embedding(t) for t in task]
-        # support, support_negative, query, negative = [get_params.adaptor(self.embedding(t)) for t in task]
         support, support_negative, _ , _= [self.embedding(t) for t in task]
 
 
@@ -213,8 +193,8 @@ class MetaR(nn.Module):
         # num_v_neg = valid_negative.shape[1]           # num of query negative
 
         rel = self.relation_learner(support)
+        rel = self.delta*adaptor(rel) + (1-self.delta)*rel
         rel.retain_grad()
-        # weights = self.relation_learner.rel_fc1.fc
 
         # relation for support
         rel_s = rel.expand(-1, few+num_sn, -1, -1)
@@ -232,16 +212,12 @@ class MetaR(nn.Module):
                 loss.backward(retain_graph=True)
 
                 grad_meta = rel.grad
-                #grad_meta = adaptor(grad_meta)
-                rel = self.delta*adaptor(rel) + (1-self.delta)*rel
-                # weight = adaptor.MLP1.fc
                 rel_s = rel - self.beta * grad_meta
             else:
                 rel_s = rel
 
             self.rel_s_sharing[curr_rel] = rel_s
 
-        #rel_s = adaptor(rel_s)
         rel_s = rel_s.expand(-1, few+num_sn, -1, -1)
 
         sup_neg_e1, sup_neg_e2 = self.split_concat(support, support_negative)

@@ -9,6 +9,7 @@ class Metanet(nn.Module):
         super(Metanet, self).__init__()
         self.params = get_params()
         self.device = parameter['device']
+        self.neuron = parameter['neuron']
 
 
 
@@ -16,14 +17,14 @@ class Metanet(nn.Module):
         # self.bn = nn.BatchNorm2d(num_features = None, affine = False,track_running_stats = False )
 
         self.MLP1 = nn.Sequential(OrderedDict([
-            ('fc',   nn.Linear(self.params['embed_dim'], 25)),
+            ('fc',   nn.Linear(self.params['embed_dim'], self.neuron)),
             # ('bn',   nn.BatchNorm2d(num_features = None, affine = False,track_running_stats = False )),
             ('relu', nn.LeakyReLU()),
             # ('drop', nn.Dropout(p=0.1)),
         ]))
 
         self.output = nn.Sequential(OrderedDict([
-            ('fc',   nn.Linear(25, self.params['embed_dim'])),
+            ('fc',   nn.Linear(self.neuron, self.params['embed_dim'])),
         ]))
 
         nn.init.xavier_normal_(self.MLP1.fc.weight)

@@ -28,6 +28,7 @@ class Trainer:
         # device
         self.device = parameter['device']
         self.metatrain_adaptor = parameter['metatrain_adaptor']
+        self.mu = parameter['mu']
 
         self.metaR = MetaR(dataset, parameter).cuda()
         self.adaptor = WayGAN2(parameter).getVariables2().cuda()
@@ -75,8 +76,8 @@ class Trainer:
 
             #Add in Context info#
             print('loading rel context ... ...')
-            relcontext = torch.from_numpy(np.load(data_dir['ent_context'])).to(self.device)
-            Context_embed = 0.9*self.metaR.embedding.embedding.weight + 0.1*relcontext
+            entcontext = torch.from_numpy(np.load(data_dir['ent_context'])).to(self.device)
+            Context_embed = (1-self.mu)*self.metaR.embedding.embedding.weight + self.mu*entcontext
             self.metaR.embedding.embedding.weight.data.copy_(Context_embed)
 
         else:
@@ -358,7 +359,9 @@ class Trainer:
                 # Retrieve validation triplet after support
                 self.task_training(best_value, epoch, best_epoch, eval_task_support, self.adaptor,
                                                             iseval=True, curr_rel='')
- 
+
+            #Load best Adaptor
+            # self.reload_relation_adaptor()
             #Wash metrics for query evaluation
             data = {'MRR': 0, 'Hits@1': 0, 'Hits@5': 0, 'Hits@10': 0}
             temp = dict()
