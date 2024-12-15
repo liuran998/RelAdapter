@@ -12,7 +12,7 @@ pip install -r requirements.txt
 ```
 
 ## Dataset
-We provide three datasets: UMLS, (Wiki, FB15K-237)[Visit Google](https://www.google.com)
+We provide three datasets: UMLS, (Wiki, FB15K-237)[Visit link](https://www.dropbox.com/scl/fo/xy3xwephlzc27knciqymy/AEJlBKE6LBR6vUZazsaRB_w?rlkey=sdmq90jp6a7avn33wluysnhy7&st=ggwckyvx&dl=0)
 ## Training (UMLS)
 ```bash
 python main.py --seed 1 --step train --metatrain_adaptor False --eval_by_rel False --prefix umlsone_1shot_pretrain --alpha 0.1 --mu 0.3 --neuron 50 --device 0
