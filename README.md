@@ -12,8 +12,7 @@ pip install -r requirements.txt
 ```
 
 ## Dataset
-We provide three datasets: UMLS, (Wiki, FB15K-237)[<a href="[https://www.dropbox.com/scl/fo/xy3xwephlzc27knciqymy/AEJlBKE6LBR6vUZazsaRB_w?rlkey=sdmq90jp6a7avn33wluysnhy7&st=u1o2uoxy&dl=0]" target="_blank">Visit GitHub</a>] 
-
+We provide three datasets: UMLS, (Wiki, FB15K-237)[Visit link]([https://www.dropbox.com/scl/fo/xy3xwephlzc27knciqymy/AEJlBKE6LBR6vUZazsaRB_w?rlkey=sdmq90jp6a7avn33wluysnhy7&st=u1o2uoxy&dl=0)]
 
 ## Training (UMLS)
 ```bash
