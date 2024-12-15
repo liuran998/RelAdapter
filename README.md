@@ -12,7 +12,7 @@ pip install -r requirements.txt
 ```
 
 ## Dataset
-We provide three datasets: Wiki[^1], FB15K-237[^1] and UMLS.
+We provide three datasets: UMLS, (Wiki, FB15K-237)[<a href="[https://github.com](https://www.dropbox.com/scl/fo/xy3xwephlzc27knciqymy/AEJlBKE6LBR6vUZazsaRB_w?rlkey=sdmq90jp6a7avn33wluysnhy7&st=u1o2uoxy&dl=0)" target="_blank">Visit GitHub</a>] 
 
 
 ## Training (UMLS)
@@ -39,4 +39,4 @@ Here are explanations of some important args,
 --prefix:    "given name of current experiment"
 --device:    "the GPU number"
 ```
-[^1]: Due to size constraint, Wiki and FB15K-237 have been excluded.
+
